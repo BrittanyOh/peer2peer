@@ -12,11 +12,11 @@ export class SearchPage {
   image: string;
 
 
-  constructor(private camera: Camera) { }
+  constructor(private camera: Camera, public navCtrl: NavController) { }
 
   async takePicture(): Promise<any>{
     try{
-    this.image = await this.camera.getPicture(this.options;
+    this.image = await this.camera.getPicture(this.options);
     }
     catch(e){
       console.log(e);
