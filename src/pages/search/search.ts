@@ -1,6 +1,6 @@
 import { Component } from '@angular/core';
 import { NavController, NavParams } from 'ionic-angular';
-import { Camera, CameraOptions } from '@ionic-native/camera';
+import { Camera } from '@ionic-native';
 
 
 @Component({
@@ -9,17 +9,22 @@ import { Camera, CameraOptions } from '@ionic-native/camera';
 })
 
 export class SearchPage {
-  image: string;
+  public base64Image: string;
 
 
-  constructor(private camera: Camera, public navCtrl: NavController) { }
+  constructor() { }
 
-  async takePicture(): Promise<any>{
-    try{
-    this.image = await this.camera.getPicture(this.options);
-    }
-    catch(e){
-      console.log(e);
-    }
+ takePicture(){
+   Camera.getPicture({
+     destinationType: Camera.DestinationType.DATA_URL,
+     targetWidth: 1000,
+     targetHeight: 1000,
+   }).then(imageData) => {
+     //image data is either base64 encoded string or a file URI
+     //if base64:
+     this.base64Image = 'data:image/jpeg;base64,' + imageData;
+   }, (err)=>{
+     console.log(err);
+    });
   }
 }
